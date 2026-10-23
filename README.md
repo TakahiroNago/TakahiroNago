@@ -1,16 +1,31 @@
-## Hi there 👋
+# 名合 貴洋｜ソフトウェアエンジニア
 
-<!--
-**TakahiroNago/TakahiroNago** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+C++によるデスクトップアプリケーション開発と、LaravelによるWebアプリケーション開発を中心に取り組んでいます。
 
-Here are some ideas to get you started:
+課題の把握から設計・実装・テストまで、一貫して対応できることが強みです。
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## 技術スタック
+
+- **言語：** C++, PHP, JavaScript, TypeScript, Python
+- **フレームワーク：** Laravel, React
+- **デスクトップ開発：** Tauri
+- **環境・ツール：** Linux, Docker, Git, GitHub
+
+## 実務経験
+
+- 産業機器向けデスクトップアプリケーションの開発
+- C++による機器制御・機能改修
+- 画像処理を用いた外観検査システムの開発
+- LaravelによるWebアプリケーションの個人開発
+
+## 個人開発
+
+### [ZEN App](https://github.com/TakahiroNago/zen-app)
+
+AIを活用した禅の対話型Webアプリケーションです。
+
+Laravelを用いて開発し、Webアプリケーションの設計・実装やAI API連携に取り組んでいます。
+
+## GitHub
+
+各リポジトリに、開発目的・使用技術・実装した機能などをまとめています。
