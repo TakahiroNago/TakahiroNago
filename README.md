@@ -2,20 +2,22 @@
 
 **ポートフォリオ：** https://art-full-stack.com/
 
-C/C++による産業機器の制御ソフトウェアや画像処理・外観検査システムの開発と、React・Go・Laravelを用いたWebアプリケーション開発に取り組んでいます。
+C/C++による産業機器の制御ソフトウェアや画像処理・外観検査システムの開発と、React・Next.js・Go・Laravelを用いたWebアプリケーション開発に取り組んでいます。
 
 直近の実務では、Tauri（React, Rust）を用いた外観検査装置向けアプリケーションで、制御プログラムとUIの両方を担当し、課題の把握から機能検討・設計・実装・テストまで対応しています。
 
-個人開発では、C++の画像処理技術とWeb技術の連携に加え、Go・gRPCによるAPI開発、Dockerを用いたサービス構成、AWSへのデプロイ・監視まで取り組んでいます。技術単体だけでなく、各コンポーネントを連携させてアプリケーション全体を構築することを重視しています。
+個人開発では、C++の画像処理技術とWeb技術の連携に加え、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション開発、Go・gRPCによるAPI開発、Dockerを用いたサービス構成、AWSへのデプロイ・監視まで取り組んでいます。技術単体だけでなく、各コンポーネントを連携させてアプリケーション全体を構築することを重視しています。
 
 ## 技術スタック
 
 - **言語：** C, C++, Python, Go, PHP, Rust, TypeScript
-- **フロントエンド：** React, Vue.js, Vite, WebAssembly, Web Worker, Tailwind CSS
-- **バックエンド・API：** Go REST API, gRPC, Protocol Buffers, Laravel, MySQL, OpenAI API
+- **フロントエンド：** React, Next.js, Vue.js, Vite, WebAssembly, Web Worker, Tailwind CSS, shadcn/ui
+- **バックエンド・API：** Go REST API, gRPC, Protocol Buffers, Laravel, Next.js Server Actions, Better Auth, OpenAI API
+- **データベース：** PostgreSQL, Prisma, MySQL
 - **デスクトップ：** Tauri
 - **画像処理：** OpenCV
-- **インフラ・運用：** Linux（Rocky Linux 9）, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Nginx, Cloudflare Pages
+- **テスト：** Vitest, Playwright, axe-core
+- **インフラ・運用：** Linux（Rocky Linux 9）, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Nginx, Cloudflare Pages, Vercel, Neon
 - **開発ツール：** Git, GitHub, GitHub Actions
 
 ## 実務経験
@@ -27,6 +29,24 @@ C/C++による産業機器の制御ソフトウェアや画像処理・外観検
 - Linux・Dockerを用いた開発環境での業務経験
 
 ## 個人開発
+
+### [ProjectFlow](https://github.com/TakahiroNago/project-management-app) / [デモ（登録せずに試せます）](https://projectflow.art-full-stack.com/login)
+
+個人開発者・小規模チーム（2〜10人）向けのプロジェクト管理Webアプリケーションです。プロジェクトごとのタスクをカンバンボードで管理し、進捗・優先度・期限を把握できます。Next.js（App Router）とPostgreSQLで実装し、認証・権限管理・ユーザー間のデータ分離に加え、単体・統合・E2Eテストと、承認付きのリリースの仕組みまで整えています。
+
+- カンバンボードのドラッグ＆ドロップ（マウス・タッチ・キーボード対応、楽観的更新）
+- ダッシュボード、メンバー管理、タスクへのコメントと更新履歴、ダークモード・レスポンシブ対応
+- Better Authによるメール＋パスワード認証、メールでのパスワード再設定、登録不要のデモアカウント
+- Owner / Memberの権限管理とユーザー間のデータ分離、nonce付きCSP、認証APIのレート制限
+- 読み取りはServer Components、更新はServer Actionsだけを入口にし、ビジネスロジックを純粋関数として分離
+- PostgreSQL・Prismaによるトランザクション処理と、DBトリガーによる整合性の保証
+- Vitest（単体・統合）、Playwright（E2E）、axe-core（WCAG 2.1 AAの自動チェック）によるテスト
+- Vercel・Neon・Resendでの本番運用と、承認付きのGitHub Actionsワークフローによるマイグレーション・デプロイ
+
+**読み取りと更新の経路**
+
+- 読み取り：`ブラウザ → proxy.ts → Server Components → requireUser → queries.ts → Prisma → PostgreSQL`
+- 更新：`ブラウザ → Server Action → 認証 → Zod → service.ts（認可・トランザクション） → Prisma → PostgreSQL`
 
 ### [SVG App](https://github.com/TakahiroNago/svg-app) / [Webフロントエンド](https://github.com/TakahiroNago/svg-web) / [デモ（ブラウザ内変換）](https://svg.art-full-stack.com/) / [AWS版（サーバー側変換）](https://aws-svg.art-full-stack.com/)
 
