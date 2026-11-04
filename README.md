@@ -58,11 +58,12 @@ C/C++による産業機器の制御ソフトウェアや画像処理・外観検
 
 - C++20・OpenCVによる減色（Lab色空間でのk-means）、輪郭抽出、SVG生成
 - 変換コアをCLIから分離し、WebAssemblyとgRPCサーバーで共通利用
-- React・TypeScriptによるWebインターフェースと、Web Workerによる変換処理
+- React・TypeScriptによるWebインターフェースと、ブラウザ内変換でのWeb Workerによる処理
+- 400万画素を超える画像の自動縮小と、サーバー送信前のメタデータ除去
 - Go REST APIとC++ gRPCサーバーの連携、Protocol Buffersによるサービス定義
 - AWS EC2上でのDocker Composeによるサービス管理と、NginxによるHTTPS終端
 - Cloudflare Pagesでのブラウザ内変換版の公開
-- GitHub ActionsによるCI（proto・Go・C++・統合テスト）と、AWS Systems Manager経由の自動デプロイ
+- GitHub ActionsによるCI（バックエンド：proto・Go・C++・統合テスト、フロントエンド：lint・型チェック・Vitest・本番ビルド）と、AWS Systems Manager経由の自動デプロイ
 - CloudWatchによるEC2監視と、SNSによるメール通知
 
 **2つの変換経路**
