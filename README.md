@@ -32,21 +32,25 @@ C/C++による産業機器の制御ソフトウェアや画像処理・外観検
 
 ### [ProjectFlow](https://github.com/TakahiroNago/project-management-app) / [デモ（登録せずに試せます）](https://projectflow.art-full-stack.com/login)
 
-個人開発者・小規模チーム（2〜10人）向けのプロジェクト管理Webアプリケーションです。プロジェクトごとのタスクをカンバンボードで管理し、進捗・優先度・期限を把握できます。Next.js（App Router）とPostgreSQLで実装し、認証・権限管理・ユーザー間のデータ分離に加え、単体・統合・E2Eテストと、承認付きのリリースの仕組みまで整えています。
+個人開発者・小規模チーム（2〜10人）向けのプロジェクト管理Webアプリケーションです。プロジェクト単位でタスクを管理し、進捗・優先度・期限を把握できます。Next.js（App Router）とPostgreSQLで実装して本番公開しており、認証・権限管理・ユーザー間のデータ分離に加え、単体・統合・E2Eテスト、承認付きのデプロイ、本番DBの自動バックアップまで整えています。
 
-- カンバンボードのドラッグ＆ドロップ（マウス・タッチ・キーボード対応、楽観的更新）
-- ダッシュボード、メンバー管理、タスクへのコメントと更新履歴、ダークモード・レスポンシブ対応
-- Better Authによるメール＋パスワード認証、メールでのパスワード再設定、登録不要のデモアカウント
-- Owner / Memberの権限管理とユーザー間のデータ分離、nonce付きCSP、認証APIのレート制限
-- 読み取りはServer Components、更新はServer Actionsだけを入口にし、ビジネスロジックを純粋関数として分離
-- PostgreSQL・Prismaによるトランザクション処理と、DBトリガーによる整合性の保証
-- Vitest（単体・統合）、Playwright（E2E）、axe-core（WCAG 2.1 AAの自動チェック）によるテスト
-- Vercel・Neon・Resendでの本番運用と、承認付きのGitHub Actionsワークフローによるマイグレーション・デプロイ
+- カンバンボード（未着手 / 進行中 / 完了）のドラッグ＆ドロップによる列の移動・並べ替え（マウス・タッチ・キーボード対応）
+- プロジェクトの検索・絞り込み・並べ替えと進捗率表示、ダッシュボード、タスクの期限切れ・期限間近の表示
+- メンバー管理、タスクへのコメントと更新履歴、ダークモード・レスポンシブ対応
+- Better Authによるメール＋パスワード認証、メールでのパスワード再設定、登録不要のデモ（サンプルデータ入りの一時アカウントを1〜2日後に自動削除）
+- Owner / Memberの権限管理とユーザー間のデータ分離（所属外のプロジェクトは404として扱う）、nonce付きCSP、認証APIのレート制限
+- 権限表・進捗率・日付判定などのビジネスロジックを純粋関数として分離
+- PostgreSQL・Prismaによるトランザクション処理と、「各プロジェクトのOwnerはちょうど1人」のDBトリガーによる保証
+- Vitest（単体・統合）、Playwright（E2E）、axe-core（全主要画面でのWCAG 2.1 AAの自動チェック）によるテストと、GitHub ActionsによるCI
+- Vercel・Neon・Resendでの本番運用と、手動実行・承認付きのGitHub Actionsワークフローによるマイグレーション・デプロイ
+- GitHub Actionsによる本番DBの毎日のバックアップ（`pg_dump`、空のDBへの復元による検証、GnuPGでの暗号化、Cloudflare R2での保管）
 
-**読み取りと更新の経路**
+**リクエストの経路**
 
-- 読み取り：`ブラウザ → proxy.ts → Server Components → requireUser → queries.ts → Prisma → PostgreSQL`
-- 更新：`ブラウザ → Server Action → 認証 → Zod → service.ts（認可・トランザクション） → Prisma → PostgreSQL`
+- 入口：`ブラウザ → proxy.ts（Cookieが無ければ/loginへ誘導するだけ）`
+- 読み取り：`ブラウザ → Server Components → requireUser()（DBでセッション検証） → queries.ts → Prisma → PostgreSQL`
+- 更新：`ブラウザ → Server Actions → 認証 → Zod検証 → service.ts（認可＋トランザクション） → Prisma`
+- 認証：`ブラウザ → /api/auth/*（Better Auth）`
 
 ### [SVG App](https://github.com/TakahiroNago/svg-app) / [Webフロントエンド](https://github.com/TakahiroNago/svg-web) / [デモ（ブラウザ内変換）](https://svg.art-full-stack.com/) / [AWS版（サーバー側変換）](https://aws-svg.art-full-stack.com/)
 
