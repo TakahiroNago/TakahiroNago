@@ -6,17 +6,18 @@ C/C++による産業機器の制御ソフトウェアや画像処理・外観検
 
 直近の実務では、Tauri（React, Rust）を用いた外観検査装置向けアプリケーションで、制御プログラムとUIの両方を担当し、課題の把握から機能検討・設計・実装・テストまで対応しています。
 
-個人開発では、C++の画像処理技術とWeb技術の連携に加え、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション開発、Go・gRPCによるAPI開発、Dockerを用いたサービス構成、AWSへのデプロイ・監視まで取り組んでいます。技術単体だけでなく、各コンポーネントを連携させてアプリケーション全体を構築することを重視しています。
+個人開発では、C++の画像処理技術とWeb技術の連携に加え、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション開発、Go・gRPCによるAPI開発、Dockerを用いたサービス構成、AWSへのデプロイ・監視まで取り組んでいます。直近では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォームを、脅威モデルとセキュリティ設計を文書化しながらLaravel・PostgreSQL・Reactで開発しています。技術単体だけでなく、各コンポーネントを連携させてアプリケーション全体を構築することを重視しています。
 
 ## 技術スタック
 
 - **言語：** C, C++, Python, Go, PHP, Rust, TypeScript
 - **フロントエンド：** React, Next.js, Vue.js, Vite, WebAssembly, Web Worker, Tailwind CSS, shadcn/ui
-- **バックエンド・API：** Go REST API, gRPC, Protocol Buffers, Laravel, Next.js Server Actions, Better Auth, OpenAI API
-- **データベース：** PostgreSQL, Prisma, MySQL
+- **バックエンド・API：** Go REST API, gRPC, Protocol Buffers, Laravel, Laravel Sanctum, Next.js Server Actions, Better Auth, OpenAI API
+- **データベース：** PostgreSQL, Redis, Prisma, MySQL
 - **デスクトップ：** Tauri
 - **画像処理：** OpenCV
-- **テスト：** Vitest, Playwright, axe-core
+- **テスト：** Pest, Larastan, Vitest, Playwright, axe-core
+- **セキュリティ検査：** Semgrep, Trivy, gitleaks
 - **インフラ・運用：** Linux（Rocky Linux 9）, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Nginx, Cloudflare Pages, Vercel, Neon
 - **開発ツール：** Git, GitHub, GitHub Actions
 
@@ -29,6 +30,26 @@ C/C++による産業機器の制御ソフトウェアや画像処理・外観検
 - Linux・Dockerを用いた開発環境での業務経験
 
 ## 個人開発
+
+### [SecureFlow AI](https://github.com/TakahiroNago/secureflow-ai)
+
+AIが業務内容の依頼文を分析してワークフロー（実行計画）を提案し、入力と出力の検査、人間の承認、実行前の再検証、改ざんを検出できる監査ログを経て実行する、組織向けのセキュリティ管理プラットフォームです。AIにはツール実行・DB・外部通信の権限を与えず、提案のみを行わせる設計にしています。Laravel・PostgreSQL・Redis・Reactで実装し、要件定義・脅威モデル・設計書・テスト戦略を文書化しながら、工程ごとにテスト・静的解析・セキュリティスキャンをCIで通して開発を進めています。現在は開発環境で動作し、AIは既定でモック、実行は模擬のみです（公開デモはありません）。
+
+- 個人情報のマスキング、認証・秘密情報（APIキーなど）による停止、プロンプトインジェクションの検出（High / Critical は停止、Medium は警告、Low は記録）と、検出が完全ではないことの明示
+- AIの出力をJSONスキーマ・操作の許可リスト・機密情報・HTMLで検証し、禁止操作の実行ハンドラをコード上に存在させない
+- 実行する処理・使用するAI機能・対象データ・必要な権限・実行による影響を人間が確認して承認。承認は計画のSHA-256ハッシュに紐付け、自己承認は禁止、承認後の編集は再承認
+- 実行前に承認ハッシュとポリシーを再検証し、Idempotency-Keyで二重実行を防止（実行は模擬のみ）
+- 操作を組織ごとのハッシュチェーンで記録する監査ログ（DB関数からのみ追記、更新・削除はトリガーで禁止）と、画面・コマンドからの検証
+- 組織・ユーザー・ロールに基づく認可、Sanctumによる同一オリジンのCookieセッション、DBロールの分離（所有者 / アプリ / テスト）
+- Pest（セキュリティテストを独立したグループに分離）、Larastan（レベル8）、Vitest、PlaywrightによるE2E（Chromium / Firefox / WebKit）、アプリ内のセキュリティ自己診断（26ケース）
+- GitHub Actionsの7つのジョブ（秘密情報スキャン、バックエンド、フロントエンド、全サービス起動、E2E、セキュリティテスト、Semgrep / Trivy）をPull Requestごとに実行し、すべて通過したものだけをmainにマージ
+- Redis・PostgreSQL・workerの実際の障害を再現する検証スクリプトと、変異試験によるテストの有効性の確認
+- AIコーディングエージェント（Claude Code）を活用し、変更してはならない安全原則を明文化したうえで、各工程の設計判断・承認・レビューを自分で行う進め方
+
+**提案から実行までの経路**
+
+- 分析：`ブラウザ → Nginx → Laravel API（認証・CSRF・認可） → 入力検査（マスキング・秘密情報・インジェクション検出） → worker → AI（提案のみ。既定はモック） → 出力検証（スキーマ・許可リスト・機密情報・HTML除去） → PostgreSQL`
+- 承認と実行：`申請者の依頼 → 管理者の承認（SHA-256ハッシュに紐付け。自己承認は不可） → 実行前の再検証（ハッシュ・ポリシー・Idempotency-Key） → 模擬実行 → 監査ログ（ハッシュチェーン）`
 
 ### [ProjectFlow](https://github.com/TakahiroNago/project-management-app) / [デモ（登録せずに試せます）](https://projectflow.art-full-stack.com/login)
 
