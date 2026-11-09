@@ -2,34 +2,45 @@
 
 **ポートフォリオ：** https://art-full-stack.com/
 
-C/C++による産業機器の制御ソフトウェアや画像処理・外観検査システムの開発と、React・Next.js・Go・Laravelを用いたWebアプリケーション開発に取り組んでいます。
+実務では、C/C++による船舶制御システムの改修と操船システムの新規開発（リーダー）を経て、Tauri（Rust）によるロボットアーム制御パッケージと外観検査装置ソフトウェアを、プログラム担当1名として設計から実装まで担当しました（2023年10月〜2026年8月）。外観検査の画像処理では、既存のC++実装で約14秒かかっていた処理をRustで約3秒に短縮しています。
 
-直近の実務では、Tauri（React, Rust）を用いた外観検査装置向けアプリケーションで、制御プログラムとUIの両方を担当し、課題の把握から機能検討・設計・実装・テストまで対応しています。
+個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。Rustのライブラリ（egui、wry）には修正PRを提出しています。
 
-個人開発では、C++の画像処理技術とWeb技術の連携に加え、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション開発、Go・gRPCによるAPI開発、Dockerを用いたサービス構成、AWSへのデプロイ・監視まで取り組んでいます。直近では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォームを、脅威モデルとセキュリティ設計を文書化しながらLaravel・PostgreSQL・Reactで開発しています。技術単体だけでなく、各コンポーネントを連携させてアプリケーション全体を構築することを重視しています。
+関心領域：AI機能を安全に組み込むシステム開発、AI機能のセキュリティ、Rustによる開発とOSSへの参加。
+
+## 実務経験（2023年10月〜2026年8月）
+
+実務と個人開発は分けて記載しています。各案件の規模・役割・技術は[ポートフォリオサイトの経歴](https://art-full-stack.com/#experience)に記載しています。
+
+**マイクロクラフト株式会社（2025年5月〜2026年8月）** — プログラム担当1名として設計〜実装を単独で担当
+
+- 外観検査装置の画像認識プログラムとUIの作成：プリント基板のパターン印刷を印刷前後で比較して欠陥を検出。画像処理を約14秒から約3秒へ短縮（並列化、撮影途中からの部分処理、メモリ共有によるI/O削減）— Tauri（Rust, TypeScript, React）、C/C++、HALCON
+- ロボットアーム制御パッケージの作成：基板を搬入カートから基板検査機へロード／アンロードし、検査結果に基づいて移動。基板検査機との連携も設計・開発 — Tauri（Rust, TypeScript, Vue.js）、C/C++
+
+**株式会社エスユーエス（2023年10月〜2025年4月）** — 船舶制御装置メーカーに常駐
+
+- 操船システムの新規開発（2024年3月〜2025年4月、リーダー）：要件定義・設計・開発に加え、進捗管理、GitLabの組織内への新規導入とコードレビュー・マージ。Rocky Linux 9とDockerで制御（C++）とUI（Python）を別コンテナで構成 — C/C++、Python、Docker、Rocky Linux、Ubuntu、GitLab
+- 操艦システム、自動船位保持システム（DPS）、自動操船装置の改修・調整・実装（メンバー）— C/C++、Cygwin、iTron OS
+- 船舶ディーゼルエンジン性能測定システムの改修・新機能追加（メンバー）— C++、C++ Builder
+- 船体姿勢シミュレーターのC++からVB.NETへのリプレイス・機能追加（メンバー）— VB.NET
+
+## OSS活動（2026年11月。いずれも提出済み・レビュー中）
+
+- [emilk/egui #8849](https://github.com/emilk/egui/pull/8849)：システムフォントから全角英数字・CJK約物が欠落する問題の修正（PR）
+- [tauri-apps/wry #1924](https://github.com/tauri-apps/wry/pull/1924)：Windowsで `WM_SETFOCUS` 時のWebViewへのフォーカス移動を遅延させる修正（PR）
+- [MicrosoftEdge/WebView2Feedback #5799](https://github.com/MicrosoftEdge/WebView2Feedback/issues/5799)：同一プロセス内の2つのWebView2ウィンドウを切り替えるとIMEの変換候補UIが画面左上へ外れる不具合の報告（Issue）
 
 ## 技術スタック
 
-- **言語：** C, C++, Python, Go, PHP, Rust, TypeScript
-- **フロントエンド：** React, Next.js, Vue.js, Vite, WebAssembly, Web Worker, Tailwind CSS, shadcn/ui
-- **バックエンド・API：** Go REST API, gRPC, Protocol Buffers, Laravel, Laravel Sanctum, Next.js Server Actions, Better Auth, OpenAI API
-- **データベース：** PostgreSQL, Redis, Prisma, MySQL
-- **デスクトップ：** Tauri
-- **画像処理：** OpenCV
-- **テスト：** Pest, Larastan, Vitest, Playwright, axe-core
-- **セキュリティ検査：** Semgrep, Trivy, gitleaks
-- **インフラ・運用：** Linux（Rocky Linux 9）, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Nginx, Cloudflare Pages, Vercel, Neon
-- **開発ツール：** Git, GitHub, GitHub Actions
+「自力で設計・実装できる」「実務で使用した」「個人開発・学習で使用した」の3つに分けています。1つの技術が複数に入ることがあります。
 
-## 実務経験
+- **自力で設計・実装できる：** C, C++, Rust, Tauri, TypeScript, React, Vue.js, Next.js, Python, Go, PHP / Laravel, VB.NET, HALCON, OpenCV, PostgreSQL, MySQL, Docker / Docker Compose, Linux（Rocky Linux 9, Ubuntu）, AWS, WebAssembly, gRPC / Protocol Buffers, Git / GitHub Actions / GitLab
+- **実務で使用した：** C, C++, Rust, Tauri, TypeScript, React, Vue.js, Python, VB.NET, C++ Builder, HALCON, OpenCV, Docker / Docker Compose, Linux（Rocky Linux 9, Ubuntu）, iTron OS, Cygwin, Git / GitLab, Windows
+- **個人開発・学習で使用した：** C++20, TypeScript, React, Next.js, Python, Go, PHP / Laravel, Laravel Sanctum, Better Auth, OpenAI API, PostgreSQL, MySQL, Redis, Prisma, OpenCV, WebAssembly, Web Worker, gRPC / Protocol Buffers, Tailwind CSS, shadcn/ui, Pest, Larastan, Vitest, Playwright, axe-core, Semgrep, Trivy, gitleaks, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Nginx, Cloudflare Pages, Vercel, Neon, GitHub Actions
 
-- C/C++による産業機器の制御プログラム開発・機能改修
-- C++・画像処理を用いた外観検査システムの開発
-- Tauri（Rust, Vue.js, React, TypeScript)を用いたデスクトップアプリケーションの開発
-- 課題の把握から設計、実装、テストまでの一貫した開発
-- Linux・Dockerを用いた開発環境での業務経験
+## 個人開発（2026年9月〜）
 
-## 個人開発
+開発にはAIコーディングエージェント（Claude Code）を活用し、要件定義・設計判断・レビュー・承認は自分で行っています。
 
 ### [SecureFlow AI](https://github.com/TakahiroNago/secureflow-ai)
 
@@ -44,7 +55,7 @@ AIが業務内容の依頼文を分析してワークフロー（実行計画）
 - Pest（セキュリティテストを独立したグループに分離）、Larastan（レベル8）、Vitest、PlaywrightによるE2E（Chromium / Firefox / WebKit）、アプリ内のセキュリティ自己診断（26ケース）
 - GitHub Actionsの7つのジョブ（秘密情報スキャン、バックエンド、フロントエンド、全サービス起動、E2E、セキュリティテスト、Semgrep / Trivy）をPull Requestごとに実行し、すべて通過したものだけをmainにマージ
 - Redis・PostgreSQL・workerの実際の障害を再現する検証スクリプトと、変異試験によるテストの有効性の確認
-- AIコーディングエージェント（Claude Code）を活用し、変更してはならない安全原則を明文化したうえで、各工程の設計判断・承認・レビューを自分で行う進め方
+- 変更してはならない安全原則を明文化したうえで、AIコーディングエージェントを活用して開発
 
 **提案から実行までの経路**
 
@@ -112,6 +123,9 @@ AIが業務内容の依頼文を分析してワークフロー（実行計画）
 - Googleログイン、日本語・英語のUI
 - GitHub Actionsによるテスト・ビルド・VPSへの自動デプロイ
 
+### [soul_search](https://github.com/kredo-school/soul_search)（2023年4月〜5月）
+
+プログラミングスクールKredoでチーム開発したLaravel製のSNSアプリケーションです（英語での受講・開発。公開デモはありません）。
 
 ## リンク
 
