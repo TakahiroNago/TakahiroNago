@@ -42,7 +42,7 @@
 
 開発にはAIコーディングエージェント（Claude Code）を活用し、要件定義・設計判断・レビュー・承認は自分で行っています。
 
-### [llm-inspect](https://github.com/TakahiroNago/llm-inspect)（Rust、2026年11月〜開発中）
+### [llm-inspect](https://github.com/TakahiroNago/llm-inspect) / [ブラウザデモ（WebAssembly）](https://takahironago.github.io/llm-inspect/)（Rust、2026年11月〜開発中）
 
 LLMアプリケーションの入力（個人情報・秘密情報・プロンプトインジェクション）と出力（JSON Schema・許可リスト・HTML・サイズ）を検査するライブラリとCLIです。全角文字やゼロ幅文字による回避を防ぐため、NFKC正規化と不可視文字の除去を行ったうえで照合し、検出位置は元のテキストのバイト位置へ対応付けて返します。ルールはTOMLで定義する正規表現（日本語・英語）で、Luhn検証、深刻度に応じた許可／警告／遮断の判定、マスキングに対応しています。検査結果には一致した本文を含めない設計です。
 
