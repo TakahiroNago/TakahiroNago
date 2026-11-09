@@ -4,7 +4,7 @@
 
 実務では、C/C++による船舶制御システムの改修と操船システムの新規開発（リーダー）を経て、Tauri（Rust）によるロボットアーム制御パッケージと外観検査装置ソフトウェアを、プログラム担当1名として設計から実装まで担当しました（2023年10月〜2026年8月）。外観検査の画像処理では、既存のC++実装で約14秒かかっていた処理をRustで約3秒に短縮しています。
 
-個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。Rustのライブラリ（egui、wry）には修正PRを提出し、LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発中です。
+個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。Rustのライブラリ（egui、wry）には修正PRを提出し、LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発し、v0.1.0をcrates.ioに公開しています。
 
 関心領域：AI機能を安全に組み込むシステム開発、AI機能のセキュリティ、Rustによる開発とOSSへの参加。
 
@@ -42,12 +42,12 @@
 
 開発にはAIコーディングエージェント（Claude Code）を活用し、要件定義・設計判断・レビュー・承認は自分で行っています。
 
-### [llm-inspect](https://github.com/TakahiroNago/llm-inspect) / [ブラウザデモ（WebAssembly）](https://takahironago.github.io/llm-inspect/)（Rust、2026年11月〜開発中）
+### [llm-inspect](https://github.com/TakahiroNago/llm-inspect) / [ブラウザデモ（WebAssembly）](https://takahironago.github.io/llm-inspect/)（Rust、2026年11月 v0.1.0 を crates.io に公開）
 
-LLMアプリケーションの入力（個人情報・秘密情報・プロンプトインジェクション）と出力（JSON Schema・許可リスト・HTML・サイズ）を検査するライブラリとCLIです。全角文字やゼロ幅文字による回避を防ぐため、NFKC正規化と不可視文字の除去を行ったうえで照合し、検出位置は元のテキストのバイト位置へ対応付けて返します。ルールはTOMLで定義する正規表現（日本語・英語）で、Luhn検証、深刻度に応じた許可／警告／遮断の判定、マスキングに対応しています。検査結果には一致した本文を含めない設計です。
+LLMアプリケーションの入力（個人情報・秘密情報・プロンプトインジェクション）と出力（JSON Schema・許可リスト・HTML・サイズ）を検査するライブラリです。CLI・WebAssemblyのブラウザデモ・axumのHTTPサービス（Docker）から同じコアを利用できます。全角文字やゼロ幅文字による回避を防ぐため、NFKC正規化と不可視文字の除去を行ったうえで照合し、検出位置は元のテキストのバイト位置へ対応付けて返します。ルールはTOMLで定義する正規表現（日本語・英語）で、Luhn検証、深刻度に応じた許可／警告／遮断の判定、マスキングに対応しています。検査結果には一致した本文を含めない設計です。
 
-- clippy（pedantic）警告ゼロ、テスト44件。GitHub ActionsでUbuntu / Windowsのテスト、wasm32ビルド、MSRV（Rust 1.85）を検証
-- 検出は完全ではないことをREADMEに明記。crates.ioは未公開。MIT / Apache-2.0
+- clippy（pedantic）警告ゼロ。ユニット・プロパティテスト（proptest）、ファジング（cargo-fuzz、週次CI）、Criterionベンチマーク。GitHub ActionsでUbuntu / Windowsのテスト、wasm32ビルド、MSRV（Rust 1.85）、Dockerイメージを検証
+- 検出は完全ではないことをREADMEに明記。crates.ioにv0.1.0を公開（[crates.io](https://crates.io/crates/llm-inspect) / [docs.rs](https://docs.rs/llm-inspect)）。MIT / Apache-2.0
 
 ### [SecureFlow AI](https://github.com/TakahiroNago/secureflow-ai)
 
