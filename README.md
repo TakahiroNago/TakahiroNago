@@ -4,7 +4,7 @@
 
 実務では、C/C++による船舶制御システムの改修と操船システムの新規開発（リーダー）を経て、Tauri（Rust）によるロボットアーム制御パッケージと外観検査装置ソフトウェアを、プログラム担当1名として設計から実装まで担当しました（2023年10月〜2026年8月）。外観検査の画像処理では、既存のC++実装で約14秒かかっていた処理をRustで約3秒に短縮しています。
 
-個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。Rustのライブラリ（egui、wry）には修正PRを提出し、LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発し、v0.1.0をcrates.ioに公開しています。
+個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、Go・MySQLによるゲームバックエンドAPI、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発してv0.1.0をcrates.ioに公開し、Tauri本体には修正PRがマージされ（2026年11月）、Rustのライブラリ（egui、wry）にも修正PRを提出しています。
 
 関心領域：AI機能を安全に組み込むシステム開発、AI機能のセキュリティ、Rustによる開発とOSSへの参加。
 
@@ -24,19 +24,19 @@
 - 船舶ディーゼルエンジン性能測定システムの改修・新機能追加（メンバー）— C++、C++ Builder
 - 船体姿勢シミュレーターのC++からVB.NETへのリプレイス・機能追加（メンバー）— VB.NET
 
-## OSS活動（2026年11月。いずれも提出済み・レビュー中）
+## OSS活動（2026年11月）
 
-- [emilk/egui #8849](https://github.com/emilk/egui/pull/8849)：システムフォントから全角英数字・CJK約物が欠落する問題の修正（PR）
-- [tauri-apps/wry #1924](https://github.com/tauri-apps/wry/pull/1924)：Windowsで `WM_SETFOCUS` 時のWebViewへのフォーカス移動を遅延させる修正（PR）
-- [MicrosoftEdge/WebView2Feedback #5799](https://github.com/MicrosoftEdge/WebView2Feedback/issues/5799)：同一プロセス内の2つのWebView2ウィンドウを切り替えるとIMEの変換候補UIが画面左上へ外れる不具合の報告（Issue）
+- [tauri-apps/tauri #16506](https://github.com/tauri-apps/tauri/pull/16506)：MSIのアップグレード時に、削除されたデスクトップショートカットを再作成しないようにする修正（PR、**マージ済み** 2026年11月12日）
+- [emilk/egui #8849](https://github.com/emilk/egui/pull/8849)：システムフォントから全角英数字・CJK約物が欠落する問題の修正（PR、レビュー中）
+- [tauri-apps/wry #1924](https://github.com/tauri-apps/wry/pull/1924)：Windowsで `WM_SETFOCUS` 時のWebViewへのフォーカス移動を遅延させる修正（PR、レビュー中）
+- [MicrosoftEdge/WebView2Feedback #5799](https://github.com/MicrosoftEdge/WebView2Feedback/issues/5799)：同一プロセス内の2つのWebView2ウィンドウを切り替えるとIMEの変換候補UIが画面左上へ外れる不具合の報告（Issue、対応待ち）
 
 ## 技術スタック
 
-「自力で設計・実装できる」「実務で使用した」「個人開発・学習で使用した」の3つに分けています。1つの技術が複数に入ることがあります。
+「実務で使用した」「個人開発・学習で使用した」の2つに分けています。1つの技術が両方に入ることがあります。
 
-- **自力で設計・実装できる：** C, C++, Rust, Tauri, TypeScript, React, Vue.js, Next.js, Python, Go, PHP / Laravel, VB.NET, HALCON, OpenCV, PostgreSQL, MySQL, Docker / Docker Compose, Linux（Rocky Linux 9, Ubuntu）, AWS, WebAssembly, gRPC / Protocol Buffers, Git / GitHub Actions / GitLab
 - **実務で使用した：** C, C++, Rust, Tauri, TypeScript, React, Vue.js, Python, VB.NET, C++ Builder, HALCON, OpenCV, Docker / Docker Compose, Linux（Rocky Linux 9, Ubuntu）, iTron OS, Cygwin, Git / GitLab, Windows
-- **個人開発・学習で使用した：** Rust, C++20, TypeScript, React, Next.js, Python, Go, PHP / Laravel, Laravel Sanctum, Better Auth, OpenAI API, PostgreSQL, MySQL, Redis, Prisma, OpenCV, WebAssembly, Web Worker, gRPC / Protocol Buffers, Tailwind CSS, shadcn/ui, Pest, Larastan, Vitest, Playwright, axe-core, Semgrep, Trivy, gitleaks, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Nginx, Cloudflare Pages, Vercel, Neon, GitHub Actions
+- **個人開発・学習で使用した：** Rust, C++20, TypeScript, React, Next.js, Python, Go, PHP / Laravel, Laravel Sanctum, Better Auth, OpenAI API, PostgreSQL, MySQL, Redis, Prisma, OpenCV, WebAssembly, Web Worker, gRPC / Protocol Buffers, Tailwind CSS, shadcn/ui, Pest, Larastan, Vitest, Playwright, axe-core, Semgrep, Trivy, gitleaks, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Terraform, Prometheus, Grafana, Nginx, Cloudflare Pages, Vercel, Neon, GitHub Actions
 
 ## 個人開発（2026年9月〜）
 
@@ -51,7 +51,7 @@ LLMアプリケーションの入力（個人情報・秘密情報・プロン�
 
 ### [SecureFlow AI](https://github.com/TakahiroNago/secureflow-ai)
 
-AIが業務内容の依頼文を分析してワークフロー（実行計画）を提案し、入力と出力の検査、人間の承認、実行前の再検証、改ざんを検出できる監査ログを経て実行する、組織向けのセキュリティ管理プラットフォームです。AIにはツール実行・DB・外部通信の権限を与えず、提案のみを行わせる設計にしています。Laravel・PostgreSQL・Redis・Reactで実装し、要件定義・脅威モデル・設計書・テスト戦略を文書化しながら、工程ごとにテスト・静的解析・セキュリティスキャンをCIで通して開発を進め、要件定義で定めた15項目の完成条件を根拠付きで確認してMVPを完成させました。開発環境で動作し、AIは既定でモック、実行は模擬のみです（公開デモはありません。公開環境へ移行する前に満たす条件は設計書に整理しています）。
+AIが業務内容の依頼文を分析してワークフロー（実行計画）を提案し、入力と出力の検査、人間の承認、実行前の再検証、改ざんを検出できる監査ログを経て実行する、組織向けのセキュリティ管理プラットフォームです。AIにはツール実行・DB・外部通信の権限を与えず、提案のみを行わせる設計にしています。Laravel・PostgreSQL・Redis・Reactで実装し、要件定義・脅威モデル・設計書・テスト戦略を文書化しながら、工程ごとにテスト・静的解析・セキュリティスキャンをCIで通して開発を進め、要件定義で定めた15項目の完成条件を根拠付きで確認してMVPを完成させました。開発環境で動作し、AIは既定でモック、実行は模擬のみです（公開デモはありません。公開環境へ移行する前に満たす条件は設計書に整理しています）。2026年11月からAWSへの公開に向けた工程（本番用コンテナイメージ、TerraformによるVPC・ALB・EC2・CloudWatch・SNS・Budgetsの定義）に着手しています（未公開）。
 
 - 個人情報のマスキング、認証・秘密情報（APIキーなど）による停止、プロンプトインジェクションの検出（High / Critical は停止、Medium は警告、Low は記録）と、検出が完全ではないことの明示
 - AIの出力をJSONスキーマ・操作の許可リスト・機密情報・HTMLで検証し、禁止操作の実行ハンドラをコード上に存在させない
@@ -68,6 +68,23 @@ AIが業務内容の依頼文を分析してワークフロー（実行計画）
 
 - 分析：`ブラウザ → Nginx → Laravel API（認証・CSRF・認可） → 入力検査（マスキング・秘密情報・インジェクション検出） → worker → AI（提案のみ。既定はモック） → 出力検証（スキーマ・許可リスト・機密情報・HTML除去） → PostgreSQL`
 - 承認と実行：`申請者の依頼 → 管理者の承認（SHA-256ハッシュに紐付け。自己承認は不可） → 実行前の再検証（ハッシュ・ポリシー・Idempotency-Key） → 模擬実行 → 監査ログ（ハッシュチェーン）`
+
+### [Mini Game Backend](https://github.com/TakahiroNago/mini-game-backend)
+
+デイリー報酬・アイテム使用・ランキングなどのゲーム向けAPIをGo・MySQLで実装し、React製の運営管理画面を付けたものです。報酬の二重取得やアイテムの二重消費をアプリ側の事前チェックに頼らず、DBのUNIQUE制約と条件付きUPDATEで防ぎ、100並行の報酬取得などの並行テストを実際のMySQLに対してCIで毎回実行しています。Docker Composeで動作します（公開デモはありません）。
+
+- 報酬の二重取得はUNIQUE制約、アイテムの二重消費は条件付きUPDATE、冪等性は(player_id, idempotency_key)のUNIQUEで保証
+- プレイヤーを変更するすべてのトランザクションで最初にplayers行をFOR UPDATEし、ロック順序を統一（開発中に50並行で43件のデッドロックを再現し、ゼロに）
+- 100並行の報酬取得・50並行のアイテム使用・20並行の同一キー再送を、DBの最終状態まで検証するテストをCIで毎回実行（-race付き）
+- bcryptとJWT（algを固定し、jtiの失効表でログアウト）、管理APIのロール認可、二段のレート制限、ボディサイズの上限、CORSの許可リスト、セキュリティヘッダと、それぞれのセキュリティテスト
+- 管理操作の監査ログを変更と同じトランザクションで記録
+- request_id付きのJSONログ、Prometheusのメトリクス、プロビジョニング済みのGrafanaダッシュボード
+- GitHub Actionsの3ジョブ（Go・フロントエンド・全サービス起動の疎通確認）、graceful shutdown、本番設定の強制チェック
+
+**リクエストの経路**
+
+- ゲームAPI：`クライアント → ミドルウェア（レート制限・ボディ上限・JWT検証） → Go API（chi） → トランザクション（playersをFOR UPDATE → 条件付きUPDATE） → MySQL（UNIQUE制約）`
+- 運営管理：`管理画面（React） → nginx（同一オリジンで中継） → Go API（adminロールのみ） → MySQL（変更と監査ログを同一トランザクションで記録）`
 
 ### [ProjectFlow](https://github.com/TakahiroNago/project-management-app) / [デモ（登録せずに試せます）](https://projectflow.art-full-stack.com/login)
 
@@ -126,6 +143,7 @@ AIが業務内容の依頼文を分析してワークフロー（実行計画）
 - OpenAI APIとの連携と、応答方針を制御するプロンプト設計
 - 過去の相談のトピック分類・要約を活用した対話
 - 個人情報と思われる記述の検出と、伏せ字の提案
+- AI APIの予算を守るための段階的な利用上限と、ゲストの試用回数のIPアドレス単位の制限
 - Stripe決済の導入と、Webhook・契約状態の管理
 - Googleログイン、日本語・英語のUI
 - GitHub Actionsによるテスト・ビルド・VPSへの自動デプロイ
