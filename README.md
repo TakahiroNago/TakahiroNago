@@ -6,7 +6,7 @@
 
 2026年11月からは、地域の商店街の組合から個人で受注したスタンプラリーのWebアプリを、要件のすり合わせから本番運用まで1名で担当しています（2026年12月運用予定）。
 
-個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、Go・MySQLによるゲームバックエンドAPI、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発してv0.1.0をcrates.ioに公開し、Tauri本体には修正PRがマージされ（2026年11月）、Rustのライブラリ（egui、wry）にも修正PRを提出しています。
+個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、Go・MySQLによるゲームバックエンドAPI、Rust・PostgreSQLによる入金消込API、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発してv0.1.0をcrates.ioに公開し、Tauri本体には修正PRがマージされ（2026年11月）、Rustのライブラリ（egui、wry）にも修正PRを提出しています。
 
 関心領域：AI機能を安全に組み込むシステム開発、AI機能のセキュリティ、Rustによる開発とOSSへの参加。
 
@@ -46,7 +46,7 @@
 「実務で使用した」「個人開発・学習で使用した」の2つに分けています。1つの技術が両方に入ることがあります。
 
 - **実務で使用した：** C, C++, Rust, Tauri, TypeScript, React, Vue.js, Python, VB.NET, C++ Builder, HALCON, OpenCV, Docker / Docker Compose, Linux（Rocky Linux 9, Ubuntu）, iTron OS, Cygwin, Git / GitLab, Windows
-- **個人開発・学習で使用した：** Rust, C++20, TypeScript, React, Next.js, Python, Go, PHP / Laravel, Laravel Sanctum, Better Auth, OpenAI API, PostgreSQL, MySQL, Redis, Prisma, OpenCV, WebAssembly, Web Worker, gRPC / Protocol Buffers, Tailwind CSS, shadcn/ui, Pest, Larastan, Vitest, Playwright, axe-core, Semgrep, Trivy, gitleaks, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Terraform, Prometheus, Grafana, Nginx, Cloudflare Pages, Vercel, Neon, GitHub Actions
+- **個人開発・学習で使用した：** Rust, C++20, TypeScript, React, Next.js, Python, Go, PHP / Laravel, Laravel Sanctum, Better Auth, axum, OpenAI API, PostgreSQL, MySQL, Redis, Prisma, OpenCV, WebAssembly, Web Worker, gRPC / Protocol Buffers, Tailwind CSS, shadcn/ui, Pest, Larastan, Vitest, Playwright, axe-core, Semgrep, Trivy, gitleaks, Docker / Docker Compose, AWS（EC2, Systems Manager, CloudWatch, SNS）, Terraform, Prometheus, Grafana, Nginx, Cloudflare Pages, Vercel, Neon, GitHub Actions
 
 ## 個人開発（2026年9月〜）
 
@@ -58,6 +58,23 @@ LLMアプリケーションの入力（個人情報・秘密情報・プロン�
 
 - clippy（pedantic）警告ゼロ。ユニット・プロパティテスト（proptest）、ファジング（cargo-fuzz、週次CI）、Criterionベンチマーク。GitHub ActionsでUbuntu / Windowsのテスト、wasm32ビルド、MSRV（Rust 1.85）、Dockerイメージを検証
 - 検出は完全ではないことをREADMEに明記。crates.ioにv0.1.0を公開（[crates.io](https://crates.io/crates/llm-inspect) / [docs.rs](https://docs.rs/llm-inspect)）。MIT / Apache-2.0
+
+### [payment-matching-api](https://github.com/TakahiroNago/payment-matching-api) / [ブラウザデモ（WebAssembly）](https://takahironago.github.io/payment-matching-api/)
+
+請求（売掛金）と銀行入金の明細を突き合わせる「入金消込」のAPIサーバーです。Rust（axum・sqlx）とPostgreSQLで実装しています。振込名義のゆれ（半角カナ、法人格の略語）を正規化して取引先を特定し、合算入金や振込手数料を差し引いた入金を4つの規則で判定します。自動で消し込むのは説明が1通りに決まるときだけで、それ以外は候補を出して人が確定します。データはすべて架空で、APIサーバーに画面はなく、認証は固定のトークン1つです。判定の規則はブラウザ内デモで試せます（デモが扱うのは1回の取り込みの自動判定で、データベースを通る部分は含みません）。
+
+- 自動確定は説明が1通りのときだけ。判定はDBに触れない純粋関数で、この性質を総当たりとの比較でプロパティテスト。どの規則で、どの請求に、なぜ消し込んだかを入金ごとに記録
+- 1件の入金に有効な消込は1つまで（部分一意インデックス）、1件の請求は1回しか消し込めない（条件付きUPDATEの更新行数を検査）。取り込みはIdempotency-Keyと内容のハッシュで冪等
+- 消込の状態を変える処理はadvisory lockで直列に実行し、ロックを待つのは5秒まで（超えたら503）
+- 候補の確定・却下、手動消込、取消（理由つきで履歴に残す）、未消込の入金の再判定、登録の訂正（別名の削除、請求の無効化）
+- 単体・プロパティテスト37件と、実際のPostgreSQLに対する結合テスト41件。9種類の操作をシードから決めた順に400回実行し、1回ごとに入金・消込・請求の間の規則をSQLで検査する整合性テストを含む
+- 名義の正規化と突合の規則をI/Oのないクレートに分け、WebAssemblyにしてGitHub Pagesで公開。デモがサーバーと同じ判定をすることを、無作為に作った60通りの取り込みで比較
+- SQLはsqlxのマクロでコンパイル時に検査。GitHub Actionsでfmt、clippy（警告ゼロ）、テスト、wasm32ビルド、cargo-deny、Dockerイメージの起動を確認
+
+**処理の経路**
+
+- 取り込み：`クライアント → axum（認証・入力検証） → トランザクション（advisory lock・重複の検査） → 突合の規則（名義の正規化・R1〜R4） → PostgreSQL`
+- ブラウザデモ：`ページ → WebAssembly（サーバーと同じ規則） → 判定と理由の表示`
 
 ### [SecureFlow AI](https://github.com/TakahiroNago/secureflow-ai)
 
