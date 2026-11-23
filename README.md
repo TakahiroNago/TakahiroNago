@@ -6,7 +6,7 @@
 
 2026年11月からは、地域の商店街の組合から個人で受注したスタンプラリーのWebアプリを、要件のすり合わせから本番運用まで1名で担当しています（2026年12月運用予定）。
 
-個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、Go・MySQLによるゲームバックエンドAPI、Rust・PostgreSQLによる入金消込API、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発してv0.1.0をcrates.ioに公開し、Tauri本体と、TauriのWebViewライブラリであるwryには修正PRがマージされ（2026年11月）、RustのGUIライブラリeguiにも修正PRを提出しています。
+個人開発では、AIの提案を人間の承認と監査ログのもとで実行するセキュリティ管理プラットフォーム（SecureFlow AI）をはじめ、Next.js・PostgreSQLによる認証・権限管理を備えたWebアプリケーション、Go・gRPCによるAPI、Go・MySQLによるゲームバックエンドAPI、Rust・PostgreSQLによる入金消込API、C++画像処理エンジンのWebAssembly / gRPCからの利用、AWSへのデプロイ・監視まで取り組んでいます。LLMアプリケーション向けの入出力検査ライブラリ（llm-inspect）をRustで開発してv0.1.0をcrates.ioに公開し、Tauri本体、TauriのWebViewライブラリであるwry、RustのGUIライブラリeguiに提出した修正PRがマージされています（2026年11月）。
 
 関心領域：AI機能を安全に組み込むシステム開発、AI機能のセキュリティ、Rustによる開発とOSSへの参加。
 
@@ -38,7 +38,7 @@
 
 - [tauri-apps/tauri #16506](https://github.com/tauri-apps/tauri/pull/16506)：MSIのアップグレード時に、削除されたデスクトップショートカットを再作成しないようにする修正（PR、**マージ済み** 2026年11月12日）
 - [tauri-apps/wry #1935](https://github.com/tauri-apps/wry/pull/1935)：WindowsでWebViewを閉じてもドロップターゲットの登録が解除されず、ドラッグ＆ドロップのハンドラーが解放されない問題の修正（PR、**マージ済み** 2026年11月23日）
-- [emilk/egui #8849](https://github.com/emilk/egui/pull/8849)：システムフォントから全角英数字・CJK約物が欠落する問題の修正（PR、レビュー中）
+- [emilk/egui #8849](https://github.com/emilk/egui/pull/8849)：システムフォントから全角英数字・CJK約物が欠落する問題の修正（PR、**マージ済み** 2026年11月23日）
 - [tauri-apps/wry #1924](https://github.com/tauri-apps/wry/pull/1924)：Windowsで `WM_SETFOCUS` 時のWebViewへのフォーカス移動を遅延させる修正（PR、レビュー中）
 - [MicrosoftEdge/WebView2Feedback #5799](https://github.com/MicrosoftEdge/WebView2Feedback/issues/5799)：同一プロセス内の2つのWebView2ウィンドウを切り替えるとIMEの変換候補UIが画面左上へ外れる不具合の報告（Issue、対応待ち）
 
