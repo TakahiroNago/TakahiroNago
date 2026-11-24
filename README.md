@@ -39,6 +39,7 @@
 - [tauri-apps/tauri #16506](https://github.com/tauri-apps/tauri/pull/16506)：MSIのアップグレード時に、削除されたデスクトップショートカットを再作成しないようにする修正（PR、**マージ済み** 2026年11月12日）
 - [tauri-apps/wry #1935](https://github.com/tauri-apps/wry/pull/1935)：WindowsでWebViewを閉じてもドロップターゲットの登録が解除されず、ドラッグ＆ドロップのハンドラーが解放されない問題の修正（PR、**マージ済み** 2026年11月23日）
 - [emilk/egui #8849](https://github.com/emilk/egui/pull/8849)：システムフォントから全角英数字・CJK約物が欠落する問題の修正（PR、**マージ済み** 2026年11月23日）
+- [tauri-apps/wry #1952](https://github.com/tauri-apps/wry/pull/1952)：`set_bounds` / `bounds` の座標の扱いをmacOSとLinuxについて実測し、APIドキュメントに追記（PR、**マージ済み** 2026年11月24日）
 - [tauri-apps/wry #1924](https://github.com/tauri-apps/wry/pull/1924)：Windowsで `WM_SETFOCUS` 時のWebViewへのフォーカス移動を遅延させる修正（PR、レビュー中）
 - [MicrosoftEdge/WebView2Feedback #5799](https://github.com/MicrosoftEdge/WebView2Feedback/issues/5799)：同一プロセス内の2つのWebView2ウィンドウを切り替えるとIMEの変換候補UIが画面左上へ外れる不具合の報告（Issue、対応待ち）
 
